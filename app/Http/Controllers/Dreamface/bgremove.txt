@@ -1,0 +1,123 @@
+<?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('max_execution_time', 0); // <-- Use this, not MAX_EXECUTION_TIME
+
+$conn = mysqli_connect("localhost", "root", "", "cron_faceswap");
+if (mysqli_connect_errno()) {
+    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    die();
+}
+
+
+$query = "SELECT * FROM `sunclassic_dhruvil` WHERE test_bgr = 0  ORDER BY id ASC LIMIT 1";
+
+// mergeVideo = 5 AND
+$results = $conn->query($query);
+
+if (!$results) {
+    echo "Error: " . $conn->error;
+    exit;
+}
+
+if ($results->num_rows > 0) {
+    $row = $results->fetch_assoc();
+} else {
+    echo "No Record Found !!!!";
+    exit;
+}
+
+$id = $row['id'];
+$filename = $row['uploadPhoto'];
+echo $id;
+
+// Input data
+$user_id = "d7de376677f2fab1ba22001a0e411412";
+$account_id = "67ea595adceb15000718e8e4";
+
+$type = 2;
+
+
+$image_url = "https://imagicahealth.com/sunclassic/uploads2/".$filename;
+
+// Step 1: Submit image for background removal
+$submit_url = "https://tools.dreamfaceapp.com/dw-server/matting/submit";
+
+$submit_payload = json_encode([
+    "user_id" => $user_id,
+    "type" => $type,
+    "bg_img_info" => ["img_url" => $image_url],
+    "human_img_info" => ["img_url" => $image_url],
+    "account_id" => $account_id,
+    "platform_type" => "WEB"
+]);
+
+$ch = curl_init($submit_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $submit_payload);
+$submit_response = curl_exec($ch);
+curl_close($ch);
+
+$submit_data = json_decode($submit_response, true);
+
+echo '<pre>';
+print_r($submit_data);
+echo '</pre>';
+$animate_id = $submit_data['data']['animate_id'];
+echo $animate_id;
+// exit;
+if (!$animate_id) {
+    die("Failed to get animate_id.");
+}
+
+
+
+// Step 2: Poll for result
+$poll_url = "https://tools.dreamfaceapp.com/dw-server/matting/animate_poll";
+$poll_payload = json_encode([
+    "user_id" => $user_id,
+    "account_id" => $account_id,
+    "poll_animate_id" => $animate_id,
+    "type" => $type
+]);
+
+print_r($poll_payload);
+
+$max_attempts = 15;
+$attempt = 0;
+$matting_img_url = null;
+
+while ($attempt < $max_attempts) {
+    sleep(3); // wait 2 seconds before polling
+    $ch = curl_init($poll_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $poll_payload);
+    $poll_response = curl_exec($ch);
+    curl_close($ch);
+
+    $poll_data = json_decode($poll_response, true);
+
+
+    if (isset($poll_data['data']['matting_img_url'])) {
+        $matting_img_url = $poll_data['data']['matting_img_url'];
+        break;
+    }
+
+    $attempt++;
+}
+
+if ($matting_img_url) {
+    echo "Matting image URL: " . $matting_img_url;
+    $query = "UPDATE sunclassic_dhruvil SET test_bgr = 5, bgr_url = '" . $matting_img_url . "' WHERE id = $id";
+    $results = $conn->query($query);
+} else {
+    echo "Failed to retrieve matting image URL.";
+    $query = "UPDATE sunclassic_dhruvil SET test_bgr = 10 WHERE id = $id";
+    $results = $conn->query($query);
+}
