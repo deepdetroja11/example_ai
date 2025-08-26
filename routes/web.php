@@ -27,7 +27,7 @@ Route::get("/delete-data-from-df", [VideoTalkController::class,"deleteDataFromDF
 
 Route::get("/bg-remove", [BgRemoveController::class,"bgRemove"]);
 Route::post("/bgr-request", [BgRemoveController::class,"RequestBgRemove"])->name('bg.request');
-Route::get("/bgr-test", [BgRemoveController::class,"BgrTest"]);
+// Route::get("/bgr-test", [BgRemoveController::class,"BgrTest"]);
 
 
 
@@ -38,6 +38,7 @@ Route::get("/bgr-test", [BgRemoveController::class,"BgrTest"]);
 
 Route::get('test',[TalkingVideoController::class,'test']);
 Route::get('talk-video',[TalkingVideoController::class,'makeTalkingVideo']);
+
 
 
 // Route::get('delete-video-url',[TalkingVideoController::class,'deleteVideoUrl']);
