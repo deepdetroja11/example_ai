@@ -35,6 +35,7 @@ Route::get("/bgr-test", [BgRemoveController::class,"BgrTest"]);
 
 
 
+
 Route::get('test',[TalkingVideoController::class,'test']);
 Route::get('talk-video',[TalkingVideoController::class,'makeTalkingVideo']);
 
