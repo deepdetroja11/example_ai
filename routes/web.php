@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dreamface\VideoTalkController;
 use App\Http\Controllers\Dreamface\BgRemoveController;
+use App\Http\Controllers\Dreamface\PhotoEnhanceController;
 
 
 
@@ -27,7 +28,13 @@ Route::get("/delete-data-from-df", [VideoTalkController::class,"deleteDataFromDF
 
 Route::get("/bg-remove", [BgRemoveController::class,"bgRemove"]);
 Route::post("/bgr-request", [BgRemoveController::class,"RequestBgRemove"])->name('bg.request');
-// Route::get("/bgr-test", [BgRemoveController::class,"BgrTest"]);
+Route::get("/bgr-test", [BgRemoveController::class,"BgrTest"]);
+
+
+// photo enhance
+Route::get("/photo-enhance", [PhotoEnhanceController::class,"photoEnhance"]);
+Route::post("/photo-enhance-request", [PhotoEnhanceController::class,"RequestPhotoEnhance"]);
+Route::get("/photo-enhance-test", [PhotoEnhanceController::class,"BgrTest"]);
 
 
 

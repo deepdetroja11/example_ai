@@ -40,6 +40,8 @@ class MediaService
 
     public function getImgContent(string $url): ?array
     {
+
+        // dd($url);
         try {
             $response = Http::withHeaders([
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',

@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'store-img-audio',
         'bgr-request',
+        'photo-enhance-request',
     ];
 }
