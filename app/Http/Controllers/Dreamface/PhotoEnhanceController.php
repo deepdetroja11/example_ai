@@ -13,10 +13,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
-
-
-
-
 class PhotoEnhanceController extends Controller
 {
     protected PhotoEnhanceServices $photoEnhanceServices;
@@ -33,15 +29,17 @@ class PhotoEnhanceController extends Controller
 
     public function photoEnhance(Request $request)
     {
-        return view('bgremove.bgr');
+        return view('enhance.enhance');
     }
 
 
     public function RequestPhotoEnhance(Request $request)
     {
+
         try {
+            set_time_limit(300);
             $validated = $request->validate([
-                'image' => 'required|image|max:2048',
+                'image' => 'required|image',
             ]);
 
             if (!$request->hasFile('image')) {
@@ -59,17 +57,12 @@ class PhotoEnhanceController extends Controller
 
             $getImgUrl = $this->photoEnhanceServices->uploadPhoto($imagePath, $userId);
 
-            // dd($getImgUrl);
-
             if ($getImgUrl['status'] === 'success') {
                 $imgUrl = $getImgUrl['file_url'];
                 $submitForEnhance = $this->photoEnhanceServices->submitForPhotoEnhance($imgUrl, $userId, $accountId);
 
                 if ($submitForEnhance['status'] === 'success') {
                     $animateId = $submitForEnhance['animate_id'];
-
-                    // dd($animateId);
-
 
                     $GetResultImg = $this->photoEnhanceServices->pollResultImage($userId, $accountId, $animateId);
 
@@ -81,7 +74,6 @@ class PhotoEnhanceController extends Controller
                         ]);
 
 
-                        // dd($imageUrl);
                         $imageResponse = $this->mediaService->getImgContent($imageUrl);
                         if ($imageResponse) {
                             $content = $imageResponse['content'];

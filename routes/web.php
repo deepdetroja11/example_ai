@@ -33,7 +33,7 @@ Route::get("/bgr-test", [BgRemoveController::class,"BgrTest"]);
 
 // photo enhance
 Route::get("/photo-enhance", [PhotoEnhanceController::class,"photoEnhance"]);
-Route::post("/photo-enhance-request", [PhotoEnhanceController::class,"RequestPhotoEnhance"]);
+Route::post("/photo-enhance-request", [PhotoEnhanceController::class,"RequestPhotoEnhance"])->name('enhance.request');
 Route::get("/photo-enhance-test", [PhotoEnhanceController::class,"BgrTest"]);
 
 
