@@ -4,12 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dreamface\VideoTalkController;
 use App\Http\Controllers\Dreamface\BgRemoveController;
 use App\Http\Controllers\Dreamface\PhotoEnhanceController;
-
-
-
-
-
-
+use App\Http\Controllers\IndexController;
 
 // talking video
 Route::post("/demo", [VideoTalkController::class,"demo"]);
@@ -37,6 +32,8 @@ Route::post("/photo-enhance-request", [PhotoEnhanceController::class,"RequestPho
 Route::get("/photo-enhance-test", [PhotoEnhanceController::class,"BgrTest"]);
 
 
+Route::get("/", [IndexController::class,"index"]);
+Route::get("/login", [IndexController::class,"login"])->name("login");
 
 
 
