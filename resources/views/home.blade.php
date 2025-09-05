@@ -732,7 +732,8 @@
             background: #fff5f5;
             transform: translateY(-2px);
         }
-.mobile-close-btn {
+
+        .mobile-close-btn {
             position: absolute;
             top: 15px;
             right: 15px;
@@ -777,7 +778,8 @@
             .header-actions .btn-text {
                 display: none;
             }
-/*
+
+            /*
             .mobile-menu-btn {
                 display: block;
                 margin-left: auto;
@@ -947,10 +949,10 @@
         </div>
 
         <div class="header-actions">
-            <button class="btn-login">
-                <i class="fas fa-user"></i>
-                <span class="btn-text">Sign In</span>
-            </button>
+            <a href="{{ route('get.signup.form') }}"><button class="btn-login">
+                    <i class="fas fa-user"></i>
+                    <span class="btn-text">Sign In</span>
+                </button></a>
             <button class="btn-try-pro">
                 <i class="fas fa-star"></i>
                 <span class="btn-text">Try Pro</span>
@@ -1032,7 +1034,8 @@
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title">Transform Your Media with AI Power</h1>
-                <p class="hero-subtitle">Enhance photos, remove backgrounds, swap faces, record and improve videos - all
+                <p class="hero-subtitle">Enhance photos, remove backgrounds, swap faces, record and improve videos -
+                    all
                     with our powerful AI tools. Simple, fast, and stunning results.</p>
                 <div class="hero-buttons">
                     <button class="btn btn-primary">Get Started Free</button>
@@ -1101,7 +1104,8 @@
                                 <i class="fas fa-people-arrows"></i>
                             </div>
                             <h3 class="tool-title">Photo Swap</h3>
-                            <p class="tool-description">Swap faces in photos with incredible accuracy. Create fun images
+                            <p class="tool-description">Swap faces in photos with incredible accuracy. Create fun
+                                images
                                 by replacing faces while maintaining natural lighting and perspective.</p>
                             <a href="photo-swap.html" class="tool-button">Use Tool</a>
                         </div>
@@ -1194,7 +1198,8 @@
                             <i class="fas fa-shield-alt"></i>
                         </div>
                         <h3 class="feature-title">Privacy First</h3>
-                        <p class="feature-description">Your media is never stored on our servers. All processing happens
+                        <p class="feature-description">Your media is never stored on our servers. All processing
+                            happens
                             securely in your browser.</p>
                     </div>
                 </div>
@@ -1319,7 +1324,8 @@
                         </div>
                         <div class="footer-logo-text">AI Tools</div>
                     </div>
-                    <p class="footer-description">Transform your media with our powerful AI-powered tools. Simple, fast,
+                    <p class="footer-description">Transform your media with our powerful AI-powered tools. Simple,
+                        fast,
                         and stunning results for creators of all levels.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -1381,7 +1387,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             const toolsLink = $('#toolsLink');
             const toolsDropdown = $('#toolsDropdown');
 
@@ -1390,14 +1396,14 @@
             const mobileProfilePopUpCloseBtn = document.getElementById('mobileProfilePopUpCloseBtn');
 
             // Toggle popup when clicking user avatar
-            userAvatar.addEventListener('click', function (e) {
+            userAvatar.addEventListener('click', function(e) {
                 e.stopPropagation();
                 userPopup.classList.toggle('active');
                 // popupOverlay.classList.toggle('active');
             });
 
             // Close popup when clicking outside
-            document.addEventListener('click', function (e) {
+            document.addEventListener('click', function(e) {
                 if (userPopup.classList.contains('active') &&
                     !userPopup.contains(e.target) &&
                     e.target !== userAvatar) {
@@ -1405,7 +1411,7 @@
                 }
             });
             // Prevent closing when clicking inside popup
-            userPopup.addEventListener('click', function (e) {
+            userPopup.addEventListener('click', function(e) {
                 e.stopPropagation();
             });
             // Close popup function
@@ -1416,24 +1422,24 @@
 
 
             // Close popup when clicking mobile close button
-            mobileProfilePopUpCloseBtn.addEventListener('click', function () {
+            mobileProfilePopUpCloseBtn.addEventListener('click', function() {
                 closePopup();
             });
 
             // header css end
 
             // Show dropdown on hover
-            toolsLink.on('mouseenter', function () {
+            toolsLink.on('mouseenter', function() {
                 toolsDropdown.addClass('active');
             });
 
             // Hide dropdown when mouse leaves the dropdown area
-            toolsDropdown.on('mouseleave', function () {
+            toolsDropdown.on('mouseleave', function() {
                 toolsDropdown.removeClass('active');
             });
 
             // Keep dropdown visible when hovering over the tools link
-            toolsLink.on('mouseleave', function (e) {
+            toolsLink.on('mouseleave', function(e) {
                 // Check if mouse is moving to dropdown
                 if (e.relatedTarget &&
                     (e.relatedTarget === toolsDropdown[0] ||
@@ -1444,7 +1450,7 @@
             });
 
             // Toggle dropdown on click (for mobile)
-            toolsLink.on('click', function (e) {
+            toolsLink.on('click', function(e) {
                 if ($(window).width() < 992) {
                     e.preventDefault();
                     toolsDropdown.toggleClass('active');
@@ -1452,7 +1458,7 @@
             });
 
             // Close dropdown when clicking elsewhere
-            $(document).on('click', function (e) {
+            $(document).on('click', function(e) {
                 if (!$(e.target).closest('#toolsLink, #toolsDropdown').length) {
                     toolsDropdown.removeClass('active');
                 }
@@ -1465,7 +1471,7 @@
             // });
 
             // Smooth scrolling for anchor links
-            $('a[href^="#"]').not('#toolsLink').on('click', function (e) {
+            $('a[href^="#"]').not('#toolsLink').on('click', function(e) {
                 e.preventDefault();
                 var target = this.hash;
                 var $target = $(target);

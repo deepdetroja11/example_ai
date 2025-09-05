@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dreamface\VideoTalkController;
 use App\Http\Controllers\Dreamface\BgRemoveController;
@@ -32,12 +34,17 @@ Route::post("/photo-enhance-request", [PhotoEnhanceController::class,"RequestPho
 Route::get("/photo-enhance-test", [PhotoEnhanceController::class,"BgrTest"]);
 
 
-Route::get("/", [IndexController::class,"index"]);
-Route::get("/login", [IndexController::class,"login"])->name("login");
+Route::get("/", [IndexController::class,"index"])->name('index');
+Route::get("/sign-up", [RegisterController::class,"getSignupForm"])->name("get.signup.form");
+Route::post('/sign-up', [RegisterController::class, 'store'])->name('signup.store');
+Route::get("/sign-in", [RegisterController::class,"getSigninForm"])->name("get.signin.form");
+Route::post('/sign-in', [RegisterController::class, 'postLoginForm'])->name('signin.store');
 
 
 
 
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 
 Route::get('test',[TalkingVideoController::class,'test']);

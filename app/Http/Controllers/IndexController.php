@@ -10,4 +10,9 @@ class IndexController extends Controller
     {
         return view('home');
     }
+
+    public function getSignupForm()
+    {
+        return view('auth.signup');
+    }
 }
